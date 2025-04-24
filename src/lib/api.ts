@@ -347,8 +347,8 @@ export const createThread = async (projectId: string): Promise<Thread> => {
   const { data, error } = await supabase
     .from('threads')
     .insert({
-      project_id: projectId,
-      account_id: user.id, // Use the current user's ID as the account ID
+  project_id: projectId?.trim() || null, // <-- evita inserimento "" nel campo UUID
+  account_id: user.id
     })
     .select()
     .single();
