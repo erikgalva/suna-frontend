@@ -373,8 +373,7 @@ export const addUserMessage = async (threadId: string, content: string): Promise
       thread_id: threadId,
       type: 'user',
       is_llm_message: true,
-      content: JSON.stringify(message),
-      account_id: user.id
+      content: JSON.stringify(message)
     });
   
   if (error) {
