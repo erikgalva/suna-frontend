@@ -347,7 +347,8 @@ export const createThread = async (projectId: string): Promise<Thread> => {
   const { data, error } = await supabase
     .from('threads')
     .insert({
-  project_id: projectId?.trim() || null // <-- evita inserimento "" nel campo UUID
+      project_id: projectId,
+      account_id: user.id, // Use the current user's ID as the account ID
     })
     .select()
     .single();
@@ -1088,3 +1089,4 @@ export const initiateAgent = async (formData: FormData): Promise<InitiateAgentRe
     throw error;
   }
 };
+
