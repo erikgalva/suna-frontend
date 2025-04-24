@@ -21,9 +21,10 @@ export default function DashboardLayout({
   const [showMaintenanceAlert, setShowMaintenanceAlert] = useState(false)
   const { data: accounts } = useAccounts()
   const personalAccount = accounts?.find(account => account.personal_account)
-  
+
   useEffect(() => {
-    setShowPricingAlert(true)
+    const isSelfHosted = true; // forza la modalità self-hosted
+    setShowPricingAlert(!isSelfHosted) // mostra il paywall solo se non è self-hosted
     setShowMaintenanceAlert(false)
   }, [])
 
@@ -35,14 +36,15 @@ export default function DashboardLayout({
           {children}
         </div>
       </SidebarInset>
-      
+
+      {/* Paywall disattivato se self-hosted */}
       <PricingAlert 
         open={showPricingAlert} 
         onOpenChange={setShowPricingAlert}
         closeable={false}
         accountId={personalAccount?.account_id}
       />
-      
+
       <MaintenanceAlert
         open={showMaintenanceAlert}
         onOpenChange={setShowMaintenanceAlert}
@@ -50,4 +52,4 @@ export default function DashboardLayout({
       />
     </SidebarProvider>
   )
-} 
+}
