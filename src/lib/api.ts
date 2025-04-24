@@ -367,20 +367,22 @@ export const addUserMessage = async (threadId: string, content: string): Promise
   };
   
   // Insert the message into the messages table
-  const { error } = await supabase
-    .from('messages')
-    .insert({
-      thread_id: threadId,
-      type: 'user',
-      is_llm_message: true,
-      content: JSON.stringify(message)
-    });
-  
-  if (error) {
-    console.error('Error adding user message:', error);
-    throw new Error(`Error adding message: ${error.message}`);
-  }
-};
+  const { data, error } = await supabase
+  .from('messages')
+  .insert({
+    thread_id: threadId,
+    type: 'user',
+    is_llm_message: true,
+    content: JSON.stringify(message)
+  });
+
+console.log("Message inserted:", data);
+
+if (error) {
+  console.error('Error adding user message:', error);
+  throw new Error(`Error adding message: ${error.message || JSON.stringify(error)}`);
+}
+
 
 export const getMessages = async (threadId: string): Promise<Message[]> => {
   const supabase = createClient();
